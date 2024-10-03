@@ -13,7 +13,7 @@ export default function AttendanceIndex({ auth, attendances }) {
                 </h2>
             }
         >
-            <Head title="User" />
+            <Head title="Absensi" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -34,7 +34,7 @@ export default function AttendanceIndex({ auth, attendances }) {
                                     <thead>
                                         <tr className="bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
                                             <th className="py-3 px-6 text-left border-b">
-                                                Tanggal
+                                                Date & Time
                                             </th>
                                             <th className="py-3 px-6 text-left border-b">
                                                 Name
@@ -43,7 +43,7 @@ export default function AttendanceIndex({ auth, attendances }) {
                                                 Status
                                             </th>
                                             <th className="py-3 px-6 text-center border-b">
-                                                Alamat
+                                                Address
                                             </th>
                                         </tr>
                                     </thead>
