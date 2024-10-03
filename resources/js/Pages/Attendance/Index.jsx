@@ -4,6 +4,19 @@ import { Head, Link } from "@inertiajs/react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export default function AttendanceIndex({ auth, attendances }) {
+    const getStatusLabel = (status) => {
+        const statusLabels = {
+            attend: "Hadir",
+            leave: "Cuti",
+            sick: "Sakit",
+            permit: "Izin",
+            business_trip: "Perjalanan Dinas",
+            remote: "Kerja Remote",
+        };
+
+        return statusLabels[status] || status; // Mengembalikan label, atau status asli jika tidak ditemukan
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -34,6 +47,9 @@ export default function AttendanceIndex({ auth, attendances }) {
                                     <thead>
                                         <tr className="bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
                                             <th className="py-3 px-6 text-left border-b">
+                                                No
+                                            </th>
+                                            <th className="py-3 px-6 text-left border-b">
                                                 Date & Time
                                             </th>
                                             <th className="py-3 px-6 text-left border-b">
@@ -43,23 +59,33 @@ export default function AttendanceIndex({ auth, attendances }) {
                                                 Status
                                             </th>
                                             <th className="py-3 px-6 text-center border-b">
+                                                Description
+                                            </th>
+                                            <th className="py-3 px-6 text-center border-b">
                                                 Address
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-gray-600 text-sm">
                                         {attendances.data.map(
-                                            ({
-                                                id,
-                                                user,
-                                                created_at,
-                                                address,
-                                                status,
-                                            }) => (
+                                            (
+                                                {
+                                                    id,
+                                                    user,
+                                                    created_at,
+                                                    address,
+                                                    status,
+                                                    description,
+                                                },
+                                                index
+                                            ) => (
                                                 <tr
                                                     key={id}
                                                     className="border-b border-gray-200 hover:bg-gray-50"
                                                 >
+                                                    <td className="py-3 px-6 text-left">
+                                                        {index + 1}{" "}
+                                                    </td>
                                                     <td className="py-3 px-6 text-left">
                                                         {created_at}
                                                     </td>
@@ -67,7 +93,10 @@ export default function AttendanceIndex({ auth, attendances }) {
                                                         {user.name}
                                                     </td>
                                                     <td className="py-3 px-6 text-left">
-                                                        {status}
+                                                        {getStatusLabel(status)}
+                                                    </td>
+                                                    <td className="py-3 px-6 text-left">
+                                                        {description}
                                                     </td>
                                                     <td className="py-3 px-6 text-left">
                                                         {address}

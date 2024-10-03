@@ -31,7 +31,7 @@ export default function UserIndex({ auth, users }) {
                                     className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
                                 >
                                     <i className="fa-solid fa-plus pr-3"></i>
-                                    Create User
+                                    Create
                                 </Link>
                             </div>
 
@@ -41,8 +41,11 @@ export default function UserIndex({ auth, users }) {
                                     <thead>
                                         <tr className="bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
                                             <th className="py-3 px-6 text-left border-b">
-                                                Id
+                                                No
                                             </th>
+                                            {/* <th className="py-3 px-6 text-left border-b">
+                                                Id
+                                            </th> */}
                                             <th className="py-3 px-6 text-left border-b">
                                                 Name
                                             </th>
@@ -59,14 +62,20 @@ export default function UserIndex({ auth, users }) {
                                     </thead>
                                     <tbody className="text-gray-600 text-sm">
                                         {users.data.map(
-                                            ({ id, name, email, role }) => (
+                                            (
+                                                { id, name, email, role },
+                                                index
+                                            ) => (
                                                 <tr
                                                     key={id}
                                                     className="border-b border-gray-200 hover:bg-gray-50"
                                                 >
-                                                    <td className="py-3 px-6 text-left whitespace-nowrap">
-                                                        {id}
+                                                    <td className="py-3 px-6 text-left">
+                                                        {index + 1}{" "}
                                                     </td>
+                                                    {/* <td className="py-3 px-6 text-left whitespace-nowrap">
+                                                        {id}
+                                                    </td> */}
                                                     <td className="py-3 px-6 text-left">
                                                         {name}
                                                     </td>
