@@ -21,14 +21,17 @@ class AttendanceController extends Controller
         return false;
     }
 
-    public function index():Response{
-        // query all attendances and paginate it
-        $attendances = Attendance::with('user')->paginate(10);
+    public function index(): Response
+{
+    // Query all attendances, order by created_at descending and paginate it
+    $attendances = Attendance::with('user')
+        ->orderBy('created_at', 'desc') // Mengurutkan berdasarkan created_at
+        ->paginate(10);
 
-        return Inertia::render('Attendance/Index', [
-            'attendances' => $attendances
-        ]);
-    }
+    return Inertia::render('Attendance/Index', [
+        'attendances' => $attendances
+    ]);
+}
 
     
 

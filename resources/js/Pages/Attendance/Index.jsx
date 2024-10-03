@@ -58,7 +58,7 @@ export default function AttendanceIndex({ auth, attendances }) {
                                             <th className="py-3 px-6 text-left border-b">
                                                 Status
                                             </th>
-                                            <th className="py-3 px-6 text-center border-b">
+                                            <th className="py-3 px-6 text-left border-b">
                                                 Description
                                             </th>
                                             <th className="py-3 px-6 text-center border-b">
