@@ -29,12 +29,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::patch('/users/update/{user}', action: [UserController::class, 'update'])->name('users.update');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     Route::get('/attendances', action: [AttendanceController::class, 'index'])->name('attendances.index');
+    // Route::post('/attendances/submit', action: [AttendanceController::class, 'submit'])->name('attendances.submit');
+
+});
+Route::middleware('auth')->group(function () {
     Route::post('/attendances/submit', action: [AttendanceController::class, 'submit'])->name('attendances.submit');
 
 });
