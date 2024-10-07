@@ -38,7 +38,7 @@ export default function Submitted() {
                     data-aos="fade-left" // Add fade-left animation to the title
                     data-aos-delay="300" // Delay this animation slightly
                 >
-                    Absensi Berhasil
+                    Attendance submitted successfully
                 </h1>
             </div>
             <p
@@ -46,8 +46,8 @@ export default function Submitted() {
                 data-aos="fade-left" // Add fade-up animation to the paragraph
                 data-aos-delay="400" // Delay this animation a bit more
             >
-                Anda sudah melakukan absensi hari ini. Terima kasih atas
-                kehadiran Anda.
+                You have already submitted your attendance for today. Thank you
+                for your response.
             </p>
         </div>
     );
