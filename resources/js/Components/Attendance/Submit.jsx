@@ -10,6 +10,7 @@ import Selectbox from "@/Components/Selectbox";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useState, useEffect } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
+import Swal from "sweetalert2";
 
 export default function Submit() {
     const loader = new Loader({
@@ -42,13 +43,14 @@ export default function Submit() {
 
         navigator.geolocation.getCurrentPosition(
             function (position) {
-                // console.log("Latitude is:", position.coords.latitude);
-                // console.log("Longitude is:", position.coords.longitude);
-
                 createGeocoder(position.coords);
             },
             function () {
-                alert("tidak mendapatkan lokasi");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Tidak mendapatkan lokasi",
+                });
             }
         );
     };
@@ -66,7 +68,11 @@ export default function Submit() {
                 })
                 .then((response) => {
                     if (!response.results[0]) {
-                        alert("Tidak bisa mendapatkan lokasi");
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Tidak bisa mendapatkan lokasi",
+                        });
                         return;
                     }
 
@@ -93,7 +99,11 @@ export default function Submit() {
             post(route("attendances.submit"), {
                 preserveScroll: true,
                 onSuccess: () => {
-                    alert("Absensi berhasil disubmit");
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil",
+                        text: "Absensi berhasil disubmit",
+                    });
                 },
                 onError: (errors) => {
                     console.log(errors);
@@ -152,7 +162,6 @@ export default function Submit() {
             <div className="flex items-center gap-4">
                 <PrimaryButton disabled={processing}>
                     <i className="fas fa-save mr-2"></i>
-                    {/* <i class="fa-solid fa-clipboard-user mr-2"></i> */}
                     Absensi
                 </PrimaryButton>
             </div>
