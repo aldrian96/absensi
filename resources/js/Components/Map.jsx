@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 
-export default function Map({ userId }) {
+export default function Map({ userId, isAdmin }) {
     const [attendances, setAttendances] = useState([]);
     const [map, setMap] = useState(null);
     const [infoWindow, setInfoWindow] = useState(null);
@@ -49,7 +49,15 @@ export default function Map({ userId }) {
             const lat = parseFloat(attendance.latitude);
             const lng = parseFloat(attendance.longitude);
 
-            if (attendance.user_id === userId && !isNaN(lat) && !isNaN(lng)) {
+            // Filter marker berdasarkan role
+            const shouldShowMarker = isAdmin || attendance.user_id === userId;
+
+            console.log("Attendance ID:", attendance.id); // Debugging
+            console.log("User ID:", userId); // Debugging
+            console.log("Is Admin:", isAdmin); // Debugging
+            console.log("Should Show Marker:", shouldShowMarker); // Debugging
+
+            if (shouldShowMarker && !isNaN(lat) && !isNaN(lng)) {
                 const marker = new google.maps.Marker({
                     position: { lat, lng },
                     map: map,
@@ -78,7 +86,7 @@ export default function Map({ userId }) {
                 });
             }
         });
-    }, [map, infoWindow, attendances, userId]);
+    }, [map, infoWindow, attendances, userId, isAdmin]);
 
     useEffect(() => {
         fetchAttendances();

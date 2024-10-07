@@ -4,8 +4,7 @@ import { Head } from "@inertiajs/react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export default function Index({ auth }) {
-    // Ambil userId dari objek auth
-    const userId = auth.user ? auth.user.id : null; // Pastikan userId tersedia
+    console.log("User Data:", auth.user); // Debugging untuk memeriksa data user
 
     return (
         <AuthenticatedLayout
@@ -18,8 +17,10 @@ export default function Index({ auth }) {
         >
             <Head title="User" />
             <div>
-                {/* Pastikan untuk meneruskan userId ke komponen Map */}
-                <Map userId={auth.user.id} />
+                <Map
+                    userId={auth.user.id}
+                    isAdmin={auth.user.role === "admin"}
+                />
             </div>
         </AuthenticatedLayout>
     );
