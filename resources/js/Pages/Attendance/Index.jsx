@@ -6,12 +6,12 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 export default function AttendanceIndex({ auth, attendances }) {
     const getStatusLabel = (status) => {
         const statusLabels = {
-            attend: "Hadir",
-            leave: "Cuti",
-            sick: "Sakit",
-            permit: "Izin",
-            business_trip: "Perjalanan Dinas",
-            remote: "Kerja Remote",
+            attend: "Present",
+            leave: "Leave",
+            sick: "Sick",
+            permit: "Permission",
+            business_trip: "Business Trip",
+            remote: "Remote Work",
         };
 
         return statusLabels[status] || status; // Mengembalikan label, atau status asli jika tidak ditemukan

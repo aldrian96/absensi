@@ -19,7 +19,7 @@ export default function Index({ auth }) {
             <Head title="User" />
             <div>
                 {/* Pastikan untuk meneruskan userId ke komponen Map */}
-                <Map userId={userId} />
+                <Map userId={auth.user.id} />
             </div>
         </AuthenticatedLayout>
     );
