@@ -43,4 +43,11 @@ Route::middleware('auth')->group(function () {
 
 });
 
+// Maps
+Route::middleware(['auth'])->group(function () {
+    Route::get('/attendances/map', [AttendanceController::class, 'map'])->name('attendances.map');
+    Route::get('/api/attendances', [AttendanceController::class, 'getAttendanceData']);
+
+});
+
 require __DIR__.'/auth.php';

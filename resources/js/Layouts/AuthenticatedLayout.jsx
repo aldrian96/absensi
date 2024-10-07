@@ -26,13 +26,23 @@ export default function Authenticated({ user, header, children }) {
                     href: route("attendances.index"),
                     current: route().current("attendances.index"),
                 },
+                {
+                    name: "Attendance Maps",
+                    href: route("attendances.map"),
+                    current: route().current("attendances.map"),
+                },
             ];
         } else {
             return [
                 {
                     name: "Dashboard",
                     href: route("dashboard"),
-                    current: false,
+                    current: route().current("dashboard"),
+                },
+                {
+                    name: "Attendance Maps",
+                    href: route("attendances.map"),
+                    current: route().current("attendances.map"),
                 },
             ];
         }

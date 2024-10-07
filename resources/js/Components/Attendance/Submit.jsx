@@ -13,23 +13,10 @@ import { Loader } from "@googlemaps/js-api-loader";
 import Swal from "sweetalert2";
 
 export default function Submit() {
-    const loader = new Loader({
-        apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-        version: "weekly",
-        libraries: ["places"],
-    });
-
+    const [loader, setLoader] = useState(null);
     const [transitioning, setTransitioning] = useState(false);
 
-    const {
-        data,
-        setData,
-        post,
-        transform,
-        errors,
-        processing,
-        recentlySuccessful,
-    } = useForm({
+    const { data, setData, post, transform, errors, processing } = useForm({
         status: "attend",
         description: "",
         latitude: "",
@@ -38,8 +25,27 @@ export default function Submit() {
         address: "",
     });
 
+    // Initialize Google Maps Loader
+    useEffect(() => {
+        const newLoader = new Loader({
+            apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+            version: "weekly",
+            libraries: ["places"],
+        });
+        setLoader(newLoader);
+    }, []);
+
     const getLatLing = (e) => {
         e.preventDefault();
+
+        if (!loader) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Google Maps loader is not initialized.",
+            });
+            return;
+        }
 
         navigator.geolocation.getCurrentPosition(
             function (position) {
@@ -49,7 +55,7 @@ export default function Submit() {
                 Swal.fire({
                     icon: "error",
                     title: "Error",
-                    text: "Tidak mendapatkan lokasi",
+                    text: "Unable to retrieve location.",
                 });
             }
         );
@@ -71,12 +77,11 @@ export default function Submit() {
                         Swal.fire({
                             icon: "error",
                             title: "Error",
-                            text: "Tidak bisa mendapatkan lokasi",
+                            text: "Unable to retrieve location.",
                         });
                         return;
                     }
 
-                    // set prepareData
                     let objLocation = {
                         latitude: coordinates.latitude,
                         longitude: coordinates.longitude,
@@ -91,7 +96,7 @@ export default function Submit() {
     useEffect(() => {
         if (data.prepareData.hasOwnProperty("address")) {
             transform((data) => ({
-                ...data.prepareData, // Latitude dan Longitude
+                ...data.prepareData,
                 status: data.status,
                 description: data.description,
             }));
@@ -101,8 +106,8 @@ export default function Submit() {
                 onSuccess: () => {
                     Swal.fire({
                         icon: "success",
-                        title: "Berhasil",
-                        text: "Absensi berhasil disubmit",
+                        title: "Success",
+                        text: "Attendance submitted successfully.",
                     });
                 },
                 onError: (errors) => {
@@ -113,28 +118,27 @@ export default function Submit() {
     }, [data.prepareData]);
 
     useEffect(() => {
-        if (data.status === "attend") {
-            setTransitioning(false);
-        } else {
-            setTransitioning(true);
-        }
+        setTransitioning(data.status !== "attend");
     }, [data.status]);
 
     return (
         <form onSubmit={getLatLing} className="mt-6 space-y-6">
             <div>
-                <InputLabel htmlFor="info" value="Silahkan lakukan absensi" />
+                <InputLabel
+                    htmlFor="info"
+                    value="Please mark your attendance"
+                />
 
                 <Selectbox
                     onChange={(e) => setData("status", e.target.value)}
                     className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 w-full"
                     options={[
-                        { value: "attend", label: "Hadir" },
-                        { value: "leave", label: "Cuti" },
-                        { value: "sick", label: "Sakit" },
-                        { value: "permit", label: "Izin" },
-                        { value: "business_trip", label: "Perjalanan Dinas" },
-                        { value: "remote", label: "Kerja Remote" },
+                        { value: "attend", label: "Present" },
+                        { value: "leave", label: "Leave" },
+                        { value: "sick", label: "Sick" },
+                        { value: "permit", label: "Permission" },
+                        { value: "business_trip", label: "Business Trip" },
+                        { value: "remote", label: "Remote Work" },
                     ]}
                 />
 
@@ -148,7 +152,7 @@ export default function Submit() {
                 leaveTo="opacity-0"
             >
                 <div>
-                    <InputLabel htmlFor="description" value="Deskripsi" />
+                    <InputLabel htmlFor="description" value="Description" />
 
                     <TextInput
                         onChange={(e) => setData("description", e.target.value)}
@@ -162,7 +166,7 @@ export default function Submit() {
             <div className="flex items-center gap-4">
                 <PrimaryButton disabled={processing}>
                     <i className="fas fa-save mr-2"></i>
-                    Absensi
+                    Submit Attendance
                 </PrimaryButton>
             </div>
         </form>
